@@ -28,7 +28,9 @@ function cardColumn(oData){
   +oData.score+'</div></div>';
 
   titleCon.append(title);
-  titleCon.append(feature);
+  if(oData.editors_choice=='Y'){
+        titleCon.append(feature);
+  }
   cardBody.append(titleCon);
   cardBody.append(cardText);
   card.append(image);
@@ -51,10 +53,11 @@ $.ajax({
   });
 
 
-function addCards(){
+function addCards(oData){
+  var data = oData?oData:allData;
   content.innerHTML='';
-  for(var i=0; i<allData.length;i++){
-    content.append(cardColumn(allData[i]));
+  for(var i=0; i<data.length;i++){
+    content.append(cardColumn(data[i]));
   }
 }
 
@@ -70,4 +73,24 @@ $('#search').on('input', function(oEvent) {
   }else{
     addCards();
   }
+});
+
+var sortedAsd = false;
+
+$( "#sort" ).click(function() {
+  if(!sortedAsd){
+    var oData =  allData;
+      oData.sort(function (a, b) {
+      return a.score - b.score;
+    });
+    sortedAsd = true;
+  }else{
+    var oData =  allData;
+      oData.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    sortedAsd = false;
+  }
+
+  addCards(oData);
 });
