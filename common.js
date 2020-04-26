@@ -42,15 +42,6 @@ function cardColumn(oData){
 
 var content  = document.getElementById('content');
 var allData =[];
-$.ajax({
-  method: "GET",
-  url: "http://starlord.hackerearth.com/gamesarena"
-})
-  .done(function( aData ) {
-    aData.shift();
-    allData=aData;
-    addCards();
-  });
 
 
 function addCards(oData){
@@ -93,4 +84,21 @@ $( "#sort" ).click(function() {
   }
 
   addCards(oData);
+});
+
+jQuery(function() {
+  jQuery.ajax({
+    method: "GET",
+    url: "http://starlord.hackerearth.com/gamesarena",
+    dataType:"json",
+    success:function( aData ) {
+      aData.shift();
+      allData=aData;
+      addCards();
+      console.log("S:data loaded");
+    },
+    error: function(error){
+      console.log("E:" + error);
+    }
+  });
 });
